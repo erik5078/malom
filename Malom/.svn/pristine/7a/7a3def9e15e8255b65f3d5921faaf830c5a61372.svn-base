@@ -1,0 +1,980 @@
+package com.example.felhasznalo.malom;
+
+import android.util.DisplayMetrics;
+import android.view.View;
+import android.support.v7.app.AppCompatActivity;
+
+import android.app.Activity;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ButtonBarLayout;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.app.AlertDialog;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class BabuKezelo
+{
+    private static BabuKezelo instance;
+    private int[] mezo;
+    private int mezoDb;
+    private int[] sarga;
+    private int[] piros;
+    private int babuDb;
+    private int sargaJatekban;
+    private int pirosJatekban;
+    private Kovetkezik kovetkezik;
+    private Statusz statusz;
+    private int[] balSzomszed;
+    private int[] jobbSzomszed;
+    private int[] felsoSzomszed;
+    private int[] alsoSzomszed;
+    private int malom;
+    private int felhelyesKor;
+    private int start;
+    private int sargaGyozelem;
+    private int pirosGyozelem;
+
+    public static BabuKezelo Instance()
+    {
+        if (instance == null)
+        {
+            instance = new BabuKezelo();
+        }
+
+        return instance;
+    }
+
+    private BabuKezelo()
+    {
+        start = -1;
+        mezoDb = 24;
+        sargaGyozelem = 0;
+        pirosGyozelem = 0;
+        mezo = new int[mezoDb];
+
+        for (int i = 0; i < mezoDb; i++) {
+            mezo[i] = 0;
+        }
+
+        babuDb = 9;
+        sarga = new int[babuDb];
+        piros = new int[babuDb];
+
+        for (int i = 0; i < babuDb; i++)
+        {
+            sarga[i] = -1;
+            piros[i] = -1;
+        }
+
+        sargaJatekban = 0;
+        pirosJatekban = 0;
+        kovetkezik = Kovetkezik.Sarga;
+        statusz = Statusz.Felhelyezes;
+        malom = 0;
+        felhelyesKor = 18;
+        //AllasFrissit(this.main);
+        SetMezoKapcsolatok();
+    }
+
+    private void SetMezoKapcsolatok() {
+        balSzomszed = new int[mezoDb];
+        jobbSzomszed = new int[mezoDb];
+        felsoSzomszed = new int[mezoDb];
+        alsoSzomszed = new int[mezoDb];
+
+        balSzomszed[0] = -1;
+        jobbSzomszed[0] = 1;
+        felsoSzomszed[0] = -1;
+        alsoSzomszed[0] = 9;
+
+        balSzomszed[1] = 0;
+        jobbSzomszed[1] = 2;
+        felsoSzomszed[1] = -1;
+        alsoSzomszed[1] = 4;
+
+        balSzomszed[2] = 1;
+        jobbSzomszed[2] = -1;
+        felsoSzomszed[2] = -1;
+        alsoSzomszed[2] = 14;
+
+        balSzomszed[3] = -1;
+        jobbSzomszed[3] = 4;
+        felsoSzomszed[3] = -1;
+        alsoSzomszed[3] = 10;
+
+        balSzomszed[4] = 3;
+        jobbSzomszed[4] = 5;
+        felsoSzomszed[4] = 1;
+        alsoSzomszed[4] = 7;
+
+        balSzomszed[5] = 4;
+        jobbSzomszed[5] = -1;
+        felsoSzomszed[5] = -1;
+        alsoSzomszed[5] = 13;
+
+        balSzomszed[6] = -1;
+        jobbSzomszed[6] = 7;
+        felsoSzomszed[6] = -1;
+        alsoSzomszed[6] = 11;
+
+        balSzomszed[7] = 6;
+        jobbSzomszed[7] = 8;
+        felsoSzomszed[7] = 4;
+        alsoSzomszed[7] = -1;
+
+        balSzomszed[8] = 7;
+        jobbSzomszed[8] = -1;
+        felsoSzomszed[8] = -1;
+        alsoSzomszed[8] = 12;
+
+        balSzomszed[9] = -1;
+        jobbSzomszed[9] = 10;
+        felsoSzomszed[9] = 0;
+        alsoSzomszed[9] = 21;
+
+        balSzomszed[10] = 9;
+        jobbSzomszed[10] = 11;
+        felsoSzomszed[10] = 3;
+        alsoSzomszed[10] = 18;
+
+        balSzomszed[11] = 10;
+        jobbSzomszed[11] = -1;
+        felsoSzomszed[11] = 6;
+        alsoSzomszed[11] = 15;
+
+        balSzomszed[12] = -1;
+        jobbSzomszed[12] = 13;
+        felsoSzomszed[12] = 8;
+        alsoSzomszed[12] = 17;
+
+        balSzomszed[13] = 12;
+        jobbSzomszed[13] = 14;
+        felsoSzomszed[13] = 5;
+        alsoSzomszed[13] = 20;
+
+        balSzomszed[14] = 13;
+        jobbSzomszed[14] = -1;
+        felsoSzomszed[14] = 2;
+        alsoSzomszed[14] = 23;
+
+        balSzomszed[15] = -1;
+        jobbSzomszed[15] = 16;
+        felsoSzomszed[15] = 11;
+        alsoSzomszed[15] = -1;
+
+        balSzomszed[16] = 15;
+        jobbSzomszed[16] = 17;
+        felsoSzomszed[16] = -1;
+        alsoSzomszed[16] = 19;
+
+        balSzomszed[17] = 16;
+        jobbSzomszed[17] = -1;
+        felsoSzomszed[17] = 12;
+        alsoSzomszed[17] = -1;
+
+        balSzomszed[18] = -1;
+        jobbSzomszed[18] = 19;
+        felsoSzomszed[18] = 10;
+        alsoSzomszed[18] = -1;
+
+        balSzomszed[19] = 18;
+        jobbSzomszed[19] = 20;
+        felsoSzomszed[19] = 16;
+        alsoSzomszed[19] = 22;
+
+        balSzomszed[20] = 19;
+        jobbSzomszed[20] = -1;
+        felsoSzomszed[20] = 13;
+        alsoSzomszed[20] = -1;
+
+        balSzomszed[21] = -1;
+        jobbSzomszed[21] = 22;
+        felsoSzomszed[21] = 9;
+        alsoSzomszed[21] = -1;
+
+        balSzomszed[22] = 21;
+        jobbSzomszed[22] = 23;
+        felsoSzomszed[22] = 19;
+        alsoSzomszed[22] = -1;
+
+        balSzomszed[23] = 22;
+        jobbSzomszed[23] = -1;
+        felsoSzomszed[23] = 14;
+        alsoSzomszed[23] = -1;
+    }
+
+    public void Betoltes(malom main)
+    {
+        ButtonPozicioBeallit(main);
+        AllasFrissit(main);
+    }
+
+    private int GetWidth(malom main)
+    {
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        main.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int height = displaymetrics.heightPixels;
+        int width = displaymetrics.widthPixels;
+        return width;
+    }
+
+    private int GetHeight(malom main)
+    {
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        main.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int height = displaymetrics.heightPixels;
+        int width = displaymetrics.widthPixels;
+        return height;
+    }
+
+    private float WidthToDp(float width, malom main)
+    {
+        int szelesszeg = GetWidth(main);
+        float percent = (float)width / 100;
+        float vissza = (float)szelesszeg * percent;
+        return vissza;
+    }
+
+    private float HeightToDp(float height, malom main)
+    {
+        int magassag = GetHeight(main);
+        float percent = (float)height / 100;
+        float vissza = (float)magassag * percent;
+        return vissza;
+    }
+
+    private void ButtonPozicioBeallit(malom main)
+    {
+        //1152 szélesség
+        //672 magasság
+
+        //0
+        View li = main.findViewById(R.id.button0);
+        li.setX(WidthToDp(4.5f, main));
+        li.setY(HeightToDp(1, main));
+        SetGombMeret(li, main);
+
+        //1
+        li = main.findViewById(R.id.button1);
+        li.setX(WidthToDp(47.5f, main));
+        li.setY(HeightToDp(1, main));
+        SetGombMeret(li, main);
+
+        //2
+        li = main.findViewById(R.id.button2);
+        li.setX(WidthToDp(90.5f, main));
+        li.setY(HeightToDp(1, main));
+        SetGombMeret(li, main);
+
+        //3
+        li = main.findViewById(R.id.button3);
+        li.setX(WidthToDp(18.5f, main));
+        li.setY(HeightToDp(12, main));
+        SetGombMeret(li, main);
+
+        //4
+        li = main.findViewById(R.id.button4);
+        li.setX(WidthToDp(47.5f, main));
+        li.setY(HeightToDp(12, main));
+        SetGombMeret(li, main);
+
+        //5
+        li = main.findViewById(R.id.button5);
+        li.setX(WidthToDp(76.5f, main));
+        li.setY(HeightToDp(12, main));
+        SetGombMeret(li, main);
+
+        //6
+        li = main.findViewById(R.id.button6);
+        li.setX(WidthToDp(33, main));
+        li.setY(HeightToDp(22, main));
+        SetGombMeret(li, main);
+
+        //7
+        li = main.findViewById(R.id.button7);
+        li.setX(WidthToDp(47.5f, main));
+        li.setY(HeightToDp(22, main));
+        SetGombMeret(li, main);
+
+        //8
+        li = main.findViewById(R.id.button8);
+        li.setX(WidthToDp(62, main));
+        li.setY(HeightToDp(22, main));
+        SetGombMeret(li, main);
+
+        //9
+        li = main.findViewById(R.id.button9);
+        li.setX(WidthToDp(4.5f, main));
+        li.setY(HeightToDp(33, main));
+        SetGombMeret(li, main);
+
+        //10
+        li = main.findViewById(R.id.button10);
+        li.setX(WidthToDp(18.5f, main));
+        li.setY(HeightToDp(33, main));
+        SetGombMeret(li, main);
+
+        //11
+        li = main.findViewById(R.id.button11);
+        li.setX(WidthToDp(33, main));
+        li.setY(HeightToDp(33, main));
+        SetGombMeret(li, main);
+
+        //12
+        li = main.findViewById(R.id.button12);
+        li.setX(WidthToDp(62, main));
+        li.setY(HeightToDp(33, main));
+        SetGombMeret(li, main);
+
+        //13
+        li = main.findViewById(R.id.button13);
+        li.setX(WidthToDp(76.5f, main));
+        li.setY(HeightToDp(33, main));
+        SetGombMeret(li, main);
+
+        //14
+        li = main.findViewById(R.id.button14);
+        li.setX(WidthToDp(90.5f, main));
+        li.setY(HeightToDp(33, main));
+        SetGombMeret(li, main);
+
+        //15
+        li = main.findViewById(R.id.button15);
+        li.setX(WidthToDp(33, main));
+        li.setY(HeightToDp(44, main));
+        SetGombMeret(li, main);
+
+        //16
+        li = main.findViewById(R.id.button16);
+        li.setX(WidthToDp(47.5f, main));
+        li.setY(HeightToDp(44, main));
+        SetGombMeret(li, main);
+
+        //17
+        li = main.findViewById(R.id.button17);
+        li.setX(WidthToDp(62, main));
+        li.setY(HeightToDp(44, main));
+        SetGombMeret(li, main);
+
+        //18
+        li = main.findViewById(R.id.button18);
+        li.setX(WidthToDp(18.5f, main));
+        li.setY(HeightToDp(55, main));
+        SetGombMeret(li, main);
+
+        //19
+        li = main.findViewById(R.id.button19);
+        li.setX(WidthToDp(47.5f, main));
+        li.setY(HeightToDp(55, main));
+        SetGombMeret(li, main);
+
+        //20
+        li = main.findViewById(R.id.button20);
+        li.setX(WidthToDp(76.5f, main));
+        li.setY(HeightToDp(55, main));
+        SetGombMeret(li, main);
+
+        //21
+        li = main.findViewById(R.id.button21);
+        li.setX(WidthToDp(4.5f, main));
+        li.setY(HeightToDp(66, main));
+        SetGombMeret(li, main);
+
+        //22
+        li = main.findViewById(R.id.button22);
+        li.setX(WidthToDp(47.5f, main));
+        li.setY(HeightToDp(66, main));
+        SetGombMeret(li, main);
+
+        //23
+        li = main.findViewById(R.id.button23);
+        li.setX(WidthToDp(90.5f, main));
+        li.setY(HeightToDp(66, main));
+        SetGombMeret(li, main);
+    }
+
+    private void SetGombMeret(View li, malom main)
+    {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)li.getLayoutParams();
+        params.width = Math.round(WidthToDp(5, main));
+        params.height = Math.round(HeightToDp(8, main));
+        li.setLayoutParams(params);
+    }
+
+    public void Kattintas(int mezo, malom main)
+    {
+        if (statusz == Statusz.Felhelyezes)
+        {
+            if (this.mezo[mezo] != 0)
+            {
+                Toast.makeText(main.getApplicationContext(),"Foglalt mező!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (kovetkezik == Kovetkezik.Sarga)
+            {
+                this.mezo[mezo] = 1;
+                MezoSzinModosit(mezo, 1, main);
+            }
+            else
+            {
+                this.mezo[mezo] = 2;
+                MezoSzinModosit(mezo, 2, main);
+            }
+
+            malom = IsMalom(mezo);
+
+            if (malom > 0)
+            {
+                statusz = Statusz.FelhelyezesMalom;
+                felhelyesKor--;
+            }
+            else
+            {
+                JatekosCsere(main);
+
+                felhelyesKor--;
+
+                if (felhelyesKor == 0)
+                {
+                    statusz = Statusz.Jatek;
+                }
+            }
+        }
+        else if (statusz == Statusz.FelhelyezesMalom)
+        {
+            Boolean leveheto = false;
+
+            if (kovetkezik == Kovetkezik.Sarga)
+            {
+                if (this.mezo[mezo] == 2 && IsMalom(mezo) == 0)
+                {
+                    leveheto = true;
+                }
+            }
+            else
+            {
+                if (this.mezo[mezo] == 1 && IsMalom(mezo) == 0)
+                {
+                    leveheto = true;
+                }
+            }
+
+            if (leveheto)
+            {
+                MezoSzinModosit(mezo, 0, main);
+                this.mezo[mezo] = 0;
+                malom--;
+
+                if (malom == 0)
+                {
+                    statusz = Statusz.Felhelyezes;
+                    JatekosCsere(main);
+                }
+
+                if (felhelyesKor == 0)
+                {
+                    statusz = Statusz.Jatek;
+                }
+            }
+            else
+            {
+                Kovetkezik szin = kovetkezik;
+
+                if (szin == Kovetkezik.Sarga)
+                {
+                    szin = Kovetkezik.Piros;
+                }
+                else
+                {
+                    szin = Kovetkezik.Sarga;
+                }
+
+                if (IsOsszesMalom(szin))
+                {
+                    MezoSzinModosit(mezo, 0, main);
+                    this.mezo[mezo] = 0;
+                    malom--;
+
+                    if (malom == 0)
+                    {
+                        statusz = Statusz.Felhelyezes;
+                        JatekosCsere(main);
+                    }
+
+                    if (felhelyesKor == 0)
+                    {
+                        statusz = Statusz.Jatek;
+                    }
+                }
+                else
+                {
+                    Toast.makeText(main.getApplicationContext(), "A kijelölt bábu nem levehető, válasszon másikat!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        else if (statusz == Statusz.Jatek)
+        {
+            if (start == -1)
+            {
+                if (kovetkezik == Kovetkezik.Sarga && this.mezo[mezo] == 1)
+                {
+                    start = mezo;
+                }
+                else if (kovetkezik == Kovetkezik.Sarga && this.mezo[mezo] == 2)
+                {
+                    Toast.makeText(main.getApplicationContext(), "A kijelölt bábu nem mozdítható, válasszon másikat!", Toast.LENGTH_SHORT).show();
+                }
+                else if (kovetkezik == Kovetkezik.Piros && this.mezo[mezo] == 2)
+                {
+                    start = mezo;
+                }
+                else if (kovetkezik == Kovetkezik.Piros && this.mezo[mezo] == 1)
+                {
+                    Toast.makeText(main.getApplicationContext(), "A kijelölt bábu nem mozdítható, válasszon másikat!", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(main.getApplicationContext(), "A kijelölt mezőn nincsen bábu, válasszon másikat!", Toast.LENGTH_SHORT).show();
+                }
+            }
+            else
+            {
+                if (Lephet(start, mezo))
+                {
+                    this.mezo[mezo] = this.mezo[start];
+                    MezoSzinModosit(mezo, this.mezo[mezo], main);
+                    this.mezo[start] = 0;
+                    MezoSzinModosit(start, 0, main);
+                    start = -1;
+
+                    malom = IsMalom(mezo);
+
+                    if (malom == 0)
+                    {
+                        JatekosCsere(main);
+
+                        if (IsBeragad(kovetkezik))
+                        {
+                            statusz = Statusz.JatekVege;
+                            Toast.makeText(main.getApplicationContext(), "Beragadt!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else
+                    {
+                        statusz = Statusz.Malom;
+                    }
+                }
+                else
+                {
+                    start = -1;
+                    Toast.makeText(main.getApplicationContext(), "A lépés nem végrehajtható!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        else if (statusz == Statusz.Malom)
+        {
+            Boolean leveheto = false;
+
+            if (kovetkezik == Kovetkezik.Sarga)
+            {
+                if (this.mezo[mezo] == 2 && IsMalom(mezo) == 0)
+                {
+                    leveheto = true;
+                }
+            }
+            else
+            {
+                if (this.mezo[mezo] == 1 && IsMalom(mezo) == 0)
+                {
+                    leveheto = true;
+                }
+            }
+
+            if (leveheto)
+            {
+                MezoSzinModosit(mezo, 0, main);
+                this.mezo[mezo] = 0;
+                malom--;
+
+                if (malom == 0)
+                {
+                    statusz = Statusz.Jatek;
+                    JatekosCsere(main);
+                }
+            }
+            else
+            {
+                Kovetkezik szin = kovetkezik;
+
+                if (szin == Kovetkezik.Sarga)
+                {
+                    szin = Kovetkezik.Piros;
+                }
+                else
+                {
+                    szin = Kovetkezik.Sarga;
+                }
+
+                if (IsOsszesMalom(szin))
+                {
+                    MezoSzinModosit(mezo, 0, main);
+                    this.mezo[mezo] = 0;
+                    malom--;
+
+                    if (malom == 0)
+                    {
+                        statusz = Statusz.Jatek;
+                        JatekosCsere(main);
+                    }
+                }
+                else
+                {
+                    Toast.makeText(main.getApplicationContext(), "A kijelölt bábu nem levehető, válasszon másikat!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        else if (statusz == Statusz.JatekVege)
+        {
+
+        }
+    }
+
+    private void MezoSzinModosit(int mezo, int szin, malom main)
+    {
+        View li;
+
+        switch (mezo)
+        {
+            case 0:
+                li = main.findViewById(R.id.button0);
+                break;
+            case 1:
+                li = main.findViewById(R.id.button1);
+                break;
+            case 2:
+                li = main.findViewById(R.id.button2);
+                break;
+            case 3:
+                li = main.findViewById(R.id.button3);
+                break;
+            case 4:
+                li = main.findViewById(R.id.button4);
+                break;
+            case 5:
+                li = main.findViewById(R.id.button5);
+                break;
+            case 6:
+                li = main.findViewById(R.id.button6);
+                break;
+            case 7:
+                li = main.findViewById(R.id.button7);
+                break;
+            case 8:
+                li = main.findViewById(R.id.button8);
+                break;
+            case 9:
+                li = main.findViewById(R.id.button9);
+                break;
+            case 10:
+                li = main.findViewById(R.id.button10);
+                break;
+            case 11:
+                li = main.findViewById(R.id.button11);
+                break;
+            case 12:
+                li = main.findViewById(R.id.button12);
+                break;
+            case 13:
+                li = main.findViewById(R.id.button13);
+                break;
+            case 14:
+                li = main.findViewById(R.id.button14);
+                break;
+            case 15:
+                li = main.findViewById(R.id.button15);
+                break;
+            case 16:
+                li = main.findViewById(R.id.button16);
+                break;
+            case 17:
+                li = main.findViewById(R.id.button17);
+                break;
+            case 18:
+                li = main.findViewById(R.id.button18);
+                break;
+            case 19:
+                li = main.findViewById(R.id.button19);
+                break;
+            case 20:
+                li = main.findViewById(R.id.button20);
+                break;
+            case 21:
+                li = main.findViewById(R.id.button21);
+                break;
+            case 22:
+                li = main.findViewById(R.id.button22);
+                break;
+            case 23:
+                li = main.findViewById(R.id.button23);
+                break;
+            default:
+                li = main.findViewById(R.id.button0);
+                break;
+        }
+
+        switch (szin)
+        {
+            case 0:
+                li.setBackgroundResource(R.drawable.babu_ures);
+                break;
+            case 1:
+                li.setBackgroundResource(R.drawable.babu_sarga);
+                break;
+            case 2:
+                li.setBackgroundResource(R.drawable.babu_piros);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private Boolean IsBeragad(Kovetkezik szin)
+    {
+        int mezoSzin;
+
+        if (szin == Kovetkezik.Sarga)
+        {
+            mezoSzin = 1;
+        }
+        else
+        {
+            mezoSzin = 2;
+        }
+
+        for (int i = 0; i < mezoDb; i++)
+        {
+            if (mezo[i] == mezoSzin)
+            {
+                if (balSzomszed[i] != -1)
+                {
+                    if (mezo[balSzomszed[i]] == 0)
+                    {
+                        return false;
+                    }
+                }
+
+                if (jobbSzomszed[i] != -1)
+                {
+                    if (mezo[jobbSzomszed[i]] == 0)
+                    {
+                        return false;
+                    }
+                }
+
+                if (felsoSzomszed[i] != -1)
+                {
+                    if (mezo[felsoSzomszed[i]] == 0)
+                    {
+                        return false;
+                    }
+                }
+
+                if (alsoSzomszed[i] != -1)
+                {
+                    if (mezo[alsoSzomszed[i]] == 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private Boolean Lephet(int start, int cel)
+    {
+        if (start < 0 || start >= mezoDb || cel < 0 || cel >= mezoDb)
+        {
+            return false;
+        }
+
+        if (mezo[cel] != 0 || mezo[start] == 0)
+        {
+            return false;
+        }
+
+        if (cel == balSzomszed[start] || cel == jobbSzomszed[start] || cel == felsoSzomszed[start] || cel == alsoSzomszed[start])
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private Boolean IsOsszesMalom(Kovetkezik szin)
+    {
+        int keres;
+
+        if (szin == Kovetkezik.Sarga)
+        {
+            keres = 1;
+        }
+        else
+        {
+            keres = 2;
+        }
+
+        Boolean malom = true;
+
+        for (int i = 0; i < mezoDb; i++)
+        {
+            if (mezo[i] == keres)
+            {
+                if (IsMalom(i) == 0)
+                {
+                    malom = false;
+                }
+            }
+        }
+
+        return malom;
+    }
+
+    private int IsMalom(int mezo)
+    {
+        int malom = 0;
+
+        if (mezo < 0 || mezo >= mezoDb)
+        {
+            return 0;
+        }
+
+        int szin = this.mezo[mezo];
+        int eredetiMezo = mezo;
+        Boolean vanBalSzomszed = true;
+
+        do
+        {
+            if (balSzomszed[mezo] == -1)
+            {
+                vanBalSzomszed = false;
+            }
+            else
+            {
+                mezo = balSzomszed[mezo];
+            }
+        } while (vanBalSzomszed);
+
+        if (this.mezo[mezo] == this.mezo[jobbSzomszed[mezo]] && this.mezo[mezo] != 0)
+        {
+            mezo = jobbSzomszed[mezo];
+
+            if (this.mezo[mezo] == this.mezo[jobbSzomszed[mezo]])
+            {
+                malom++;
+            }
+        }
+
+        mezo = eredetiMezo;
+        Boolean vanFelsoSzomszed = true;
+
+        do
+        {
+            if (felsoSzomszed[mezo] == -1)
+            {
+                vanFelsoSzomszed = false;
+            }
+            else
+            {
+                mezo = felsoSzomszed[mezo];
+            }
+        } while (vanFelsoSzomszed);
+
+        if (this.mezo[mezo] == this.mezo[alsoSzomszed[mezo]] && this.mezo[mezo] != 0)
+        {
+            mezo = alsoSzomszed[mezo];
+
+            if (this.mezo[mezo] == this.mezo[alsoSzomszed[mezo]])
+            {
+                malom++;
+            }
+        }
+
+        return malom;
+    }
+
+    private void JatekosCsere(malom main)
+    {
+        if (kovetkezik == Kovetkezik.Sarga)
+        {
+            kovetkezik = Kovetkezik.Piros;
+            View li = main.findViewById(R.id.buttonKovetkezik);
+            li.setBackgroundResource(R.drawable.babu_piros);
+            Toast.makeText(main.getApplicationContext(), "Piros következik", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            kovetkezik = Kovetkezik.Sarga;
+            View li = main.findViewById(R.id.buttonKovetkezik);
+            li.setBackgroundResource(R.drawable.babu_sarga);
+            Toast.makeText(main.getApplicationContext(), "Sárga következik", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void SetAllas(malom main, Kovetkezik nyertes)
+    {
+        if (nyertes == Kovetkezik.Sarga)
+        {
+            sargaGyozelem++;
+        }
+        else
+        {
+            pirosGyozelem++;
+        }
+
+        AllasFrissit(main);
+    }
+
+    private void AllasFrissit(malom main)
+    {
+        ((TextView)main.findViewById(R.id.allasLabel)).setText("Állás: " + sargaGyozelem + " - " + pirosGyozelem);
+    }
+
+    public Kovetkezik GetKovetkezik()
+    {
+        return kovetkezik;
+    }
+
+    public Statusz GetStatusz()
+    {
+        return statusz;
+    }
+
+    public enum Kovetkezik
+    {
+        Sarga,
+        Piros
+    }
+
+    public enum Statusz
+    {
+        Felhelyezes,
+        FelhelyezesMalom,
+        Jatek,
+        Malom,
+        JatekVege
+    }
+}

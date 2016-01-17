@@ -1,0 +1,307 @@
+package com.example.felhasznalo.malom;
+
+public class BabuKezelo
+{
+    private static BabuKezelo instance;
+    private int[] mezo;
+    private int mezoDb;
+    private int[] sarga;
+    private int[] piros;
+    private int babuDb;
+    private int sargaJatekban;
+    private int pirosJatekban;
+    private Kovetkezik kovetkezik;
+    private Statusz statusz;
+    private int[] balSzomszed;
+    private int[] jobbSzomszed;
+    private int[] felsoSzomszed;
+    private int[] alsoSzomszed;
+    private int malom;
+
+    public static BabuKezelo Instance()
+    {
+        if (instance == null)
+        {
+            instance = new BabuKezelo();
+        }
+
+        return instance;
+    }
+
+    private BabuKezelo()
+    {
+        mezoDb = 24;
+        mezo = new int[mezoDb];
+
+        for (int i = 0; i < mezoDb; i++) {
+            mezo[i] = 0;
+        }
+
+        babuDb = 9;
+        sarga = new int[babuDb];
+        piros = new int[babuDb];
+
+        for (int i = 0; i < babuDb; i++)
+        {
+            sarga[i] = -1;
+            piros[i] = -1;
+        }
+
+        sargaJatekban = 0;
+        pirosJatekban = 0;
+        kovetkezik = Kovetkezik.Sarga;
+        statusz = Statusz.Felhelyezes;
+        malom = 0;
+        SetMezoKapcsolatok();
+    }
+
+    private void SetMezoKapcsolatok()
+    {
+        balSzomszed = new int[mezoDb];
+        jobbSzomszed = new int[mezoDb];
+        felsoSzomszed = new int[mezoDb];
+        alsoSzomszed = new int[mezoDb];
+
+        balSzomszed[0] = -1;
+        jobbSzomszed[0] = 1;
+        felsoSzomszed[0] = -1;
+        alsoSzomszed[0] = 9;
+
+        balSzomszed[1] = 0;
+        jobbSzomszed[1] = 2;
+        felsoSzomszed[1] = -1;
+        alsoSzomszed[1] = 4;
+
+        balSzomszed[2] = 1;
+        jobbSzomszed[2] = -1;
+        felsoSzomszed[2] = -1;
+        alsoSzomszed[2] = 14;
+
+        balSzomszed[3] = -1;
+        jobbSzomszed[3] = 4;
+        felsoSzomszed[3] = -1;
+        alsoSzomszed[3] = 10;
+
+        balSzomszed[4] = 3;
+        jobbSzomszed[4] = 5;
+        felsoSzomszed[4] = 1;
+        alsoSzomszed[4] = 7;
+
+        balSzomszed[5] = 4;
+        jobbSzomszed[5] = -1;
+        felsoSzomszed[5] = -1;
+        alsoSzomszed[5] = 13;
+
+        balSzomszed[6] = -1;
+        jobbSzomszed[6] = 7;
+        felsoSzomszed[6] = -1;
+        alsoSzomszed[6] = 11;
+
+        balSzomszed[7] = 6;
+        jobbSzomszed[7] = 8;
+        felsoSzomszed[7] = 4;
+        alsoSzomszed[7] = -1;
+
+        balSzomszed[8] = 7;
+        jobbSzomszed[8] = -1;
+        felsoSzomszed[8] = -1;
+        alsoSzomszed[8] = 12;
+
+        balSzomszed[9] = -1;
+        jobbSzomszed[9] = 10;
+        felsoSzomszed[9] = 0;
+        alsoSzomszed[9] = 21;
+
+        balSzomszed[10] = 9;
+        jobbSzomszed[10] = 11;
+        felsoSzomszed[10] = 3;
+        alsoSzomszed[10] = 18;
+
+        balSzomszed[11] = 10;
+        jobbSzomszed[11] = -1;
+        felsoSzomszed[11] = 6;
+        alsoSzomszed[11] = 15;
+
+        balSzomszed[12] = -1;
+        jobbSzomszed[12] = 13;
+        felsoSzomszed[12] = 8;
+        alsoSzomszed[12] = 17;
+
+        balSzomszed[13] = 12;
+        jobbSzomszed[13] = 14;
+        felsoSzomszed[13] = 5;
+        alsoSzomszed[13] = 20;
+
+        balSzomszed[14] = 13;
+        jobbSzomszed[14] = -1;
+        felsoSzomszed[14] = 2;
+        alsoSzomszed[14] = 23;
+
+        balSzomszed[15] = -1;
+        jobbSzomszed[15] = 16;
+        felsoSzomszed[15] = 11;
+        alsoSzomszed[15] = -1;
+
+        balSzomszed[16] = 15;
+        jobbSzomszed[16] = 17;
+        felsoSzomszed[16] = -1;
+        alsoSzomszed[16] = 19;
+
+        balSzomszed[17] = 16;
+        jobbSzomszed[17] = -1;
+        felsoSzomszed[17] = 12;
+        alsoSzomszed[17] = -1;
+
+        balSzomszed[18] = -1;
+        jobbSzomszed[18] = 19;
+        felsoSzomszed[18] = 10;
+        alsoSzomszed[18] = -1;
+
+        balSzomszed[19] = 18;
+        jobbSzomszed[19] = 20;
+        felsoSzomszed[19] = 16;
+        alsoSzomszed[19] = 22;
+
+        balSzomszed[20] = 19;
+        jobbSzomszed[20] = -1;
+        felsoSzomszed[20] = 13;
+        alsoSzomszed[20] = -1;
+
+        balSzomszed[21] = -1;
+        jobbSzomszed[21] = 22;
+        felsoSzomszed[21] = 9;
+        alsoSzomszed[21] = -1;
+
+        balSzomszed[22] = 21;
+        jobbSzomszed[22] = 23;
+        felsoSzomszed[22] = 19;
+        alsoSzomszed[22] = -1;
+
+        balSzomszed[23] = 22;
+        jobbSzomszed[23] = -1;
+        felsoSzomszed[23] = 14;
+        alsoSzomszed[23] = -1;
+    }
+
+    private Boolean Lephet(int start, int cel)
+    {
+        if (start < 0 || start >= mezoDb || cel < 0 || cel >= mezoDb)
+        {
+            return false;
+        }
+
+        if (mezo[cel] != 0)
+        {
+            return false;
+        }
+
+        if (cel == balSzomszed[start] || cel == jobbSzomszed[start] || cel == felsoSzomszed[start] || cel == alsoSzomszed[start])
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public int IsMalom(int mezo)
+    {
+        int malom = 0;
+
+        if (mezo < 0 || mezo >= mezoDb)
+        {
+            return 0;
+        }
+
+        int szin = this.mezo[mezo];
+        int eredetiMezo = mezo;
+        Boolean vanBalSzomszed = true;
+
+        do
+        {
+            if (balSzomszed[mezo] == -1)
+            {
+                vanBalSzomszed = false;
+            }
+            else
+            {
+                mezo = balSzomszed[mezo];
+            }
+        } while (vanBalSzomszed);
+
+        if (this.mezo[mezo] == this.mezo[jobbSzomszed[mezo]] && this.mezo[mezo] != 0)
+        {
+            mezo = jobbSzomszed[mezo];
+
+            if (this.mezo[mezo] == this.mezo[jobbSzomszed[mezo]])
+            {
+                malom++;
+            }
+        }
+
+        mezo = eredetiMezo;
+        Boolean vanFelsoSzomszed = true;
+
+        do
+        {
+            if (felsoSzomszed[mezo] == -1)
+            {
+                vanFelsoSzomszed = false;
+            }
+            else
+            {
+                mezo = felsoSzomszed[mezo];
+            }
+        } while (vanFelsoSzomszed);
+
+        if (this.mezo[mezo] == this.mezo[alsoSzomszed[mezo]] && this.mezo[mezo] != 0)
+        {
+            mezo = alsoSzomszed[mezo];
+
+            if (this.mezo[mezo] == this.mezo[alsoSzomszed[mezo]])
+            {
+                malom++;
+            }
+        }
+
+        return malom;
+    }
+
+    private void JatekosCsere()
+    {
+        if (kovetkezik == Kovetkezik.Sarga)
+        {
+            kovetkezik = Kovetkezik.Piros;
+        }
+        else
+        {
+            kovetkezik = Kovetkezik.Sarga;
+        }
+    }
+
+    public Kovetkezik GetKovetkezik()
+    {
+        return kovetkezik;
+    }
+
+    public Statusz GetStatusz()
+    {
+        return statusz;
+    }
+
+    public enum Kovetkezik
+    {
+        Sarga,
+        Piros
+    }
+
+    public enum Statusz
+    {
+        Felhelyezes,
+        FelhelyezesMalom,
+        Jatek,
+        Malom,
+        JatekVege
+    }
+}
